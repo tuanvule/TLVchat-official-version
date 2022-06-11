@@ -1,24 +1,29 @@
-import logo from './logo.svg';
+
+import { Route, Routes, BrowserRouter } from 'react-router-dom';
+import './index.css';
 import './App.css';
+import Login from './components/login/index'
+import ChatApp from './components/chat-room';
+import AuthProvider from './context/authProvider';
+import AppProvider from './context/appProvider';
 
 function App() {
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <AuthProvider>
+        <AppProvider>
+          <Routes>
+            <Route element={<Login/>} path='/login' />
+            <Route element={<ChatApp/>} path='/' />
+          </Routes>
+          {/* <AddRoomModal />
+          <InviteMemberModal /> */}
+        </AppProvider>
+      </AuthProvider>
+    </BrowserRouter>
+    // <Login />
+    // <ChatApp/>
   );
 }
 
