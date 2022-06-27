@@ -51,8 +51,8 @@ export default function JoinRoomModal() {
         <h1 className="mt-4 text-2xl font-semibold">Join room</h1>
         <div className="w-full h-1 mb-6 bg-gradient-to-r from-red-400 to-cyan-500"/>
 
-        <h1 className=" text-base font-bold">Name</h1>
-        <input value={value.name} onChange={handleNameChange} type="text" className=" mb-4 mt-2 w-full px-2 py-2 rounded-lg" name="name" />
+        <h1 className=" text-base font-bold">Room's ID</h1>
+        <input value={value.name} onChange={handleNameChange} placeholder="enter room ID" type="text" className=" mb-4 mt-2 w-full px-2 py-2 rounded-lg" name="name" />
 
         <div className=" mt-auto">
             <button onClick={handleCancel} className=" text-base font-light bg-white border border-black px-2 py-1 rounded">cancle</button>

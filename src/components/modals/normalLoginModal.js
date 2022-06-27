@@ -21,8 +21,6 @@ export default function NormalLoginModal() {
 
     useMemo(async() => {
         const snapshot = await db.collection('users').get()
-        console.log(snapshot.docs.map(doc => doc.data()))
-        console.log('a')
         setUserDatas(snapshot.docs.map(doc => doc.data()))
     }, [])
 

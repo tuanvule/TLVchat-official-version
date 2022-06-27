@@ -7,7 +7,7 @@ import RenderingRoomModal from '../modals/renderingRoomModal'
 
 export default function Sidebar() {
   const [isOpenRoomMenu, setIsOpenRoomMenu] = useState(false)
-
+  console.log('rerender sidebar')
   return (
     <>
     <div className="lg:block hidden h-full bg-blue-600 w-72 text-white px-2 py-2 border-b">

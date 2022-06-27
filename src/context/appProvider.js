@@ -24,7 +24,7 @@ export default function AppProvider({ children }) {
       operator: 'array-contains',
       compareValue: `${uid}`,
     };
-  }, [uid, isRoomUpdate]);
+  }, [uid]);
 
   const rooms = useFirestore('rooms', roomsCondition);
 
@@ -32,6 +32,9 @@ export default function AppProvider({ children }) {
     () => rooms.find((room) => room.id === selectedRoomId) || '',
     [rooms, selectedRoomId] 
   );
+
+  console.log(selectedRoom.id)
+
 
   const backgroundCondition = React.useMemo(() => {
     return {
@@ -44,7 +47,7 @@ export default function AppProvider({ children }) {
   const backgrounds = useFirestore('customing-modal', backgroundCondition); 
 
   useEffect(() => {
-    const color = db.collection('customing-modal').doc('Y2jlHm8tggMu0q5jS97a')
+    const color = db.collection('customing-modal').doc('bVwwx928t6pcUWqPXBRX')
     color.get()
       .then(data => {
         setColorData(data.data())
@@ -63,10 +66,6 @@ export default function AppProvider({ children }) {
         selectedRoomId, setSelectedRoomId,
         isJoinRoomVisible, setIsJoinRoomVisible,
         backgrounds,
-        // selectedBackground, 
-        // setSelectedBackground,
-        // selectedImage, 
-        // setSelectedImage
       //   clearState,
         customBackground, setCustomBackground,
         textColor, setTextColor,

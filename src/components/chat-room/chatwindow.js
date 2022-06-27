@@ -1,13 +1,16 @@
-import React, { useContext, useState, useRef, useEffect, useMemo } from 'react'
+import React, { useContext, useState, useRef, useEffect, useMemo, memo } from 'react'
 import { AppContext } from '../../context/appProvider';
 import { AuthContext } from '../../context/authProvider'
 import addDocument from '../../firebase/services';
 import useFirestore from '../../hooks/useFirestore';
 import AddRoomModal from '../modals/addRoomModal'
 import JoinRoomModal from '../modals/joinRoomModal';
+import chunk from 'chunk'
 
-export default function Chatwindow() {
+function Chatwindow() {
   const [inputValue, setInputValue] = useState('');
+  const [chunkedMes, setChunkedMes] = useState()
+  const [chunkAmount, setChunkAmount] = useState(1)
 
   const { selectedRoom, isJoinRoomVisible} = useContext(AppContext);
  
@@ -30,7 +33,6 @@ export default function Chatwindow() {
   
       setInputValue('')
   
-  
       // focus to input again after submit
       if (inputRef?.current) {
         setTimeout(() => {
@@ -52,21 +54,64 @@ export default function Chatwindow() {
     }),
     [selectedRoom.id]
   );
-
   const messages = useFirestore('messages', condition);
 
+  console.log(messages)
+
+  function handleScroll() {
+    var position = messageListRef.current.children[0].getBoundingClientRect();
+    
+    const chunkedMes2 = chunk(messages, 20)
+
+    // console.log(chunkAmount, chunkedMes2.length)
+
+    // console.log(chunkedMes)
+
+    // checking for partial visibility
+    // console.log(chunkedMes)
+    if(position.top < messageListRef.current.scrollHeight && position.bottom >= 0 && chunkAmount < chunkedMes2.length) {
+      setChunkAmount(prev => prev+=1)
+    }
+  }
+
+  // useEffect(() => {
+  //   if (messageListRef?.current) {
+  //       messageListRef.current.scrollTop = messageListRef.current.scrollHeight;
+  //   }
+  // }, [messages, selectedRoom]);
+  
+  // chunked messages ---------------
   useEffect(() => {
-    // scroll to bottom after message changed
+    if(messages.length > 0) {
+      const chunkedMes = chunk(messages, 20)
+
+      if(chunkedMes.length) {
+        const chunkedMes2 = [...chunkedMes]
+        const reversedChunkMes = chunkedMes2.splice(chunkedMes.length - chunkAmount, chunkAmount)
+        const newChunkedMes = [].concat.apply([], reversedChunkMes)
+  
+        if(chunkedMes[chunkedMes.length-1].length < 20 && newChunkedMes.length <= 20) {
+          setChunkAmount(2)
+        }
+  
+        setChunkedMes(newChunkedMes)
+      }
+    } else {
+        setChunkedMes(null)
+    }
+  }, [messages, chunkAmount])
+    
+  useEffect(() => {
+    setChunkAmount(1)
+    
+  }, [selectedRoom])
+
+  useEffect(() => {
     if (messageListRef?.current) {
         messageListRef.current.scrollTop = messageListRef.current.scrollHeight + 50;
     }
   }, [messages, selectedRoom]);
-
-//   <li className="flex items-end mb-4" key={index}>
-//   <img className="w-6 h-6 rounded-full" src="https://dienthoaivui.com.vn/wp-content/uploads/2020/10/hinh-nen-iphone-12-19-scaled.jpg" alt="" />
-//   <h1 className=" px-3 py-2 ml-2 bg-sky-400 rounded-custom">{'hello'}</h1>
-// </li> 
-
+  
   return (
     <>
     { isJoinRoomVisible ? <JoinRoomModal/> : null}
@@ -87,8 +132,8 @@ export default function Chatwindow() {
           <i class="fa-solid fa-user-group text-blue-600 ml-2"></i>
         </div>
       </nav>
-      <ul ref={messageListRef} className=" h-full py-2 px-1 overflow-auto message-list">
-        {messages.map((mes) => {
+      <ul onScroll={handleScroll} ref={messageListRef} className=" h-full py-2 px-1 overflow-auto message-list">
+        {chunkedMes && chunkedMes.map((mes) => {
           return (
             <li className="flex items-end mb-4" key={mes.id}>
               <img className=" w-11 h-11 rounded-full self-start" src={mes.photoURL} alt="" />
@@ -109,7 +154,7 @@ export default function Chatwindow() {
       <div className="flex w-full px-1 py-2 bg-white">
         <input value={inputValue} onChange={e => setInputValue(e.target.value)} ref={inputRef} className=" w-full bg-[#22D3EE] text-black ml-1 px-3 py-1 rounded-full outline-none" type="text" />
         <div data-emojiable="true" className="emoji relative flex items-center">
-          <div className="emoji-list absolute hidden -top-14 right-1/2 transform translate-x-1/2 bg-white px-2 py-1 text-2xl rounded-full border-2 border-[#1D4ED8] triangle">
+          <div className="emoji-list absolute hidden -top-14 -right-16 transform bg-white px-2 py-1 text-2xl rounded-full border-2 border-[#1D4ED8] triangle">
             <div onClick={() => handleAddEmoji('🤣')} className=" cursor-pointer hover:brightness-90">🤣</div>
             <div onClick={() => handleAddEmoji('😢')} className=" cursor-pointer hover:brightness-90">😢</div>
             <div onClick={() => handleAddEmoji('😠')} className=" cursor-pointer hover:brightness-90">😠</div>
@@ -137,3 +182,6 @@ export default function Chatwindow() {
   </>
   )
 }
+
+
+export default Chatwindow

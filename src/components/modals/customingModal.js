@@ -1,12 +1,12 @@
-import React, {  useContext, useEffect, useState } from 'react'
+import React, {  memo, useContext, useEffect, useState } from 'react'
 import { AppContext } from '../../context/appProvider'
 import { AuthContext } from '../../context/authProvider'
 import { db } from '../../firebase/config'
 import { collection, query, where, getDocs } from "firebase/firestore";
 // import addDocument from '../../firebase/services'
 
-export default function CustomingModal() {
-    const { backgrounds, setCustomBackground, setTextColor, colorData, selectedRoomId } = useContext(AppContext)
+function CustomingModal() {
+const { backgrounds, setCustomBackground, setTextColor, colorData, selectedRoomId } = useContext(AppContext)
     const { uid } = useContext(AuthContext)
     const [isAddCustomVisible, setIsAddCustomVisible] = useState(false)
     const [inputValue, setInputValue] = useState('')
@@ -15,7 +15,7 @@ export default function CustomingModal() {
 
     // const arr = new Array(10).fill('a')
 
-    function handleCustomBackground(value, e) {
+    function handleCustomBackground(value) {
         if(selectedRoomId) {
             const roomRef = db.collection('rooms').doc(selectedRoomId)
             roomRef.update({
@@ -74,7 +74,9 @@ export default function CustomingModal() {
         console.log({
             [type]: [...customData[type], inputValue]
         })
-    }                     
+    }               
+    
+    // console.log('rerender customingModal')
   return (
     <div className=" text-white">
         <h1 className=" text-center font-bold text-2xl border-b-2 border-b-cyan-500 py-2">Background</h1>
@@ -88,12 +90,12 @@ export default function CustomingModal() {
             <li className="custom-img relative z-[9] text-xl font-medium cursor-pointer hover:underline hover:decoration-cyan-400 decoration-2 hover:text-sky-500">
                 Image
                 <ul className="custom-img__list hidden absolute w-56 px-2 right-1/2 translate-x-1/2 bg-red-400 border-8 border-transparent py-1">
-                    {customData?.image.map((image, index) => <li onClick={(e) => handleCustomBackground({backgroundImage: `url(${image})` }, e)} key={index} style={{backgroundImage: `url(${image})`}} className="customing-background relative bg-cover h-6 hover:h-16 w-full mb-2 ease-linear duration-200 will-change[height]">
+                    {customData?.image.map((image, index) => <li onClick={(e) => handleCustomBackground({backgroundImage: `url(${image})` })} key={index} style={{backgroundImage: `url(${image})`}} className="customing-background relative bg-cover h-6 hover:h-16 w-full mb-2 ease-linear duration-200 will-change[height]">
                         <button onClick={() => handleRemove(index, 'image')} className=" hidden remove-btn absolute top-1/2 -right-6 transform -translate-y-1/2 bg-blue-500 text-white text-sm font-semibold px-1 py-[2px] mx-1 mb-2 hover:bg-blue-600">Remove</button>
                     </li>)}
                     <li className=" bg-cyan-400 p-2">
                         <button onClick={() => handleAddCustomBg('image')} className=" bg-blue-500 text-white font-semibold px-1 py-[2px] mx-1 mb-2">Add</button>
-                        <input onChange={e => setInputValue(e.target.value)} type="text" className=" w-full" value={inputValue} />
+                        <input placeholder="enter your image url" onChange={e => setInputValue(e.target.value)} type="text" className=" w-full" value={inputValue} />
                     </li>
                 </ul>
             </li>
@@ -105,7 +107,8 @@ export default function CustomingModal() {
                     </li>)}
                     <li className=" bg-cyan-400 p-2">
                         <button onClick={() => handleAddCustomBg('specialColor')} className=" bg-blue-500 text-white font-semibold px-1 py-[2px] mx-1 mb-2">Add</button>
-                        <input onChange={e => setInputValue(e.target.value)} type="text" className=" w-full" value={inputValue} />
+                        <input placeholder="EX: linear-gradient(..." onChange={e => setInputValue(e.target.value)} type="text" className=" w-full" value={inputValue} />
+                        <a rel="noreferrer" className=" text-base text-[#2563EB] underline" href="http://ourownthing.co.uk/gradpad.html#" target="_blank">get these color outside</a>
                     </li>
                 </ul>
             </li>
@@ -119,3 +122,5 @@ export default function CustomingModal() {
     </div>
   )
 }
+
+export default memo(CustomingModal)
