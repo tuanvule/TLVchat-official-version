@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
 // import { Form, Modal, Input } from 'antd';
 import { AppContext } from '../../context/appProvider';
 import addDocument from '../../firebase/services';
@@ -53,7 +53,18 @@ export default function AddRoomModal() {
       //   color: a2
       // })
 
-      addDocument('rooms', { ...value, background: {backgroundColor: '#fff'}, members: [`${uid}`] });
+      
+      // if(value.avata === '') {
+      //   console.log('a')
+      //   setValue(prev => ({
+      //     ...prev,
+      //     avata: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPQ53Esibh-O6ebk0B4OBfulUoQDlQBUPQ3Q&usqp=CAU'
+      //   }))
+      // }
+
+      console.log('b')
+
+      addDocument('rooms', { ...value, avata: value.avata || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPQ53Esibh-O6ebk0B4OBfulUoQDlQBUPQ3Q&usqp=CAU', background: {backgroundColor: '#fff'}, members: [`${uid}`] });
 
       // reset form value
       resetInputValue()
@@ -90,7 +101,12 @@ export default function AddRoomModal() {
 
   function uploadImage() {
 
-    if(fileUpload.current.files[0]) {
+    var isValid = /\.jpe?g$/i.test(fileUpload.current.files[0].name)
+
+    if(fileUpload.current.files[0] && isValid) {
+
+      setIsLoading(true)
+
       const storage = getStorage();
 
       /** @type {any} */
@@ -123,18 +139,23 @@ export default function AddRoomModal() {
           // Upload completed successfully, now we can get the download URL
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
             if(downloadURL) {
-              setIsLoading(false)
               setValue(prev => ({
                 ...prev,
                 avata: downloadURL
               }))
             } else {
-              setIsLoading(false)
+              setValue(prev => ({
+                ...prev,
+                avata: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPQ53Esibh-O6ebk0B4OBfulUoQDlQBUPQ3Q&usqp=CAU'
+              }))
             }
+            setIsLoading(false)
           });
         }
       );
   
+    } else {
+      alert('Only jpg files allowed!')
     }
   }
 
@@ -143,7 +164,6 @@ export default function AddRoomModal() {
     if(fileUpload.current) {
       fileUpload.current.addEventListener("change", (event) => {
         uploadImage()
-        setIsLoading(true)
       })
     }
   }, [])

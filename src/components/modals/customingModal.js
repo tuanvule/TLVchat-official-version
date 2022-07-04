@@ -81,15 +81,15 @@ const { backgrounds, setCustomBackground, setTextColor, colorData, selectedRoomI
     <div className=" text-white">
         <h1 className=" text-center font-bold text-2xl border-b-2 border-b-cyan-500 py-2">Background</h1>
         <ul className="flex flex-col items-center">
-            <li className="custom-color relative z-[10] text-xl font-medium cursor-pointer hover:underline hover:decoration-cyan-400 decoration-2 hover:text-sky-500">
+            <li className="custom-color relative z-[10] text-xl mb-4 font-medium cursor-pointer hover:underline hover:decoration-slate-300 decoration-2 hover:text-slate-300">
                 Color
-                <ul className="custom-color__list hidden flex-wrap justify-center absolute w-56 py-1 right-1/2 translate-x-1/2 bg-red-400">
+                <ul className="custom-color__list hidden flex-wrap justify-center absolute w-56 py-1 right-1/2 translate-x-1/2 bg-[#66FCF0]">
                     {colorData?.color.map((color, index) => <li onClick={() => handleCustomBackground({backgroundColor: color,} )} key={index} style={{backgroundColor: color}} className={` w-3 h-3 mx-1 my-1 hover:brightness-75`}></li>)}
                 </ul>
             </li>
-            <li className="custom-img relative z-[9] text-xl font-medium cursor-pointer hover:underline hover:decoration-cyan-400 decoration-2 hover:text-sky-500">
+            <li className="custom-img relative z-[9] text-xl mb-4 font-medium cursor-pointer hover:underline hover:decoration-slate-300 decoration-2 hover:text-slate-300">
                 Image
-                <ul className="custom-img__list hidden absolute w-56 px-2 right-1/2 translate-x-1/2 bg-red-400 border-8 border-transparent py-1">
+                <ul className="custom-img__list hidden absolute w-56 px-2 right-1/2 translate-x-1/2 bg-[#66FCF0] border-8 border-transparent py-1">
                     {customData?.image.map((image, index) => <li onClick={(e) => handleCustomBackground({backgroundImage: `url(${image})` })} key={index} style={{backgroundImage: `url(${image})`}} className="customing-background relative bg-cover h-6 hover:h-16 w-full mb-2 ease-linear duration-200 will-change[height]">
                         <button onClick={() => handleRemove(index, 'image')} className=" hidden remove-btn absolute top-1/2 -right-6 transform -translate-y-1/2 bg-blue-500 text-white text-sm font-semibold px-1 py-[2px] mx-1 mb-2 hover:bg-blue-600">Remove</button>
                     </li>)}
@@ -99,9 +99,9 @@ const { backgrounds, setCustomBackground, setTextColor, colorData, selectedRoomI
                     </li>
                 </ul>
             </li>
-            <li className="custom-img relative text-xl font-medium cursor-pointer hover:underline hover:decoration-cyan-400 decoration-2 hover:text-sky-500">
+            <li className="custom-img relative text-xl mb-4 font-medium cursor-pointer hover:underline hover:decoration-slate-300 decoration-2 hover:text-slate-300">
                 SpecialColor
-                <ul className="custom-img__list hidden absolute w-56 py-2 px-2 right-1/2 translate-x-1/2 bg-red-400">
+                <ul className="custom-img__list hidden absolute w-56 py-2 px-2 right-1/2 translate-x-1/2 bg-[#66FCF0]">
                     {customData?.specialColor.map((specialColor, index) => <li onClick={() => handleCustomBackground({backgroundImage: specialColor })} key={index} style={{backgroundImage: specialColor }} className="customing-background relative h-8 w-full mb-2 hover:border-2 hover:border-black">
                         <button onClick={() => handleRemove(index, 'specialColor')} className=" hidden remove-btn absolute top-1/2 -right-6 transform -translate-y-1/2 bg-blue-500 text-white text-xs font-semibold px-1 py-[2px] mx-1 mb-2 hover:bg-blue-600">Remove</button>
                     </li>)}
@@ -114,11 +114,11 @@ const { backgrounds, setCustomBackground, setTextColor, colorData, selectedRoomI
             </li>
         </ul>
 
-        <h1 className=" text-center font-bold text-2xl border-b-2 border-b-cyan-500 py-2 mt-12 mb-3">Text color</h1>
+        {/* <h1 className=" text-center font-bold text-2xl border-b-2 border-b-cyan-500 py-2 mt-12 mb-3">Text color</h1>
         <ul className="flex items-center justify-center bg-[#22D3EE] h-14">
             <li onClick={() => handleChangeTextColor('white')} className=" bg-white w-1/2 h-8 mx-2"></li>
             <li onClick={() => handleChangeTextColor('black')} className=" bg-black w-1/2 h-8 mx-2"></li>
-        </ul>
+        </ul> */}
     </div>
   )
 }

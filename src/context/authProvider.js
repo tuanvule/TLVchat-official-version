@@ -12,30 +12,29 @@ export default function AuthProvider({ children }) {
 
     useEffect(() => {
       switch(loginType) {
-        case 'facebook':
-          const unsubscibed = auth.onAuthStateChanged((user) => {
-            if(user) {
-              const { displayName, email, uid, photoURL } = user
-              setUser( {
-                  displayName, email, uid, photoURL
-              } )
+        // case 'facebook':
+        //   const unsubscibed = auth.onAuthStateChanged((user) => {
+        //     if(user) {
+        //       const { displayName, email, uid, photoURL } = user
+        //       setUser( {
+        //           displayName, email, uid, photoURL
+        //       } )
 
-              localStorage.setItem('user', JSON.stringify({
-                displayName, email, uid, photoURL
-              }))
-              history('/')
-              return
-            }
-            history('/login')
-          })
+        //       localStorage.setItem('user', JSON.stringify({
+        //         displayName, email, uid, photoURL
+        //       }))
+        //       history('/')
+        //       return
+        //     }
+        //     history('/login')
+        //   })
 
-          return () => {
-            unsubscibed()
-          }
+        //   return () => {
+        //     unsubscibed()
+        //   }
 
           case 'normal':
             if(user) {
-              console.log(user)
               localStorage.setItem('user', JSON.stringify({
                 ...user
               }))
@@ -46,18 +45,20 @@ export default function AuthProvider({ children }) {
           break
 
           default:
-            // console.log('save data')
-            const data = JSON.parse(localStorage.getItem('user')) 
-            if(data) {
-              setUser(data)
-              history('/')
-              return
+            if(!user && JSON.parse(localStorage.getItem('user'))) {
+              const data = JSON.parse(localStorage.getItem('user')) 
+              console.log('abc')
+              if(data) {
+                setUser(data)
+                history('/')
+                return
+              }
+              history('/login')
             }
-            history('/login')
           break
       }
 
-    }, [history, loginType])
+    }, [history, loginType, user])
 
   return (
 

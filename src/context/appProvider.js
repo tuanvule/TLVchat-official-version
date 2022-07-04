@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { db } from '../firebase/config';
 import useFirestore from '../hooks/useFirestore';
 import { AuthContext } from './authProvider';
@@ -27,14 +27,11 @@ export default function AppProvider({ children }) {
   }, [uid]);
 
   const rooms = useFirestore('rooms', roomsCondition);
-
+  
   const selectedRoom = React.useMemo(
     () => rooms.find((room) => room.id === selectedRoomId) || '',
     [rooms, selectedRoomId] 
   );
-
-  console.log(selectedRoom.id)
-
 
   const backgroundCondition = React.useMemo(() => {
     return {

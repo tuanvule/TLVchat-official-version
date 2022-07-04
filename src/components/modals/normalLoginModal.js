@@ -4,7 +4,7 @@ import { AuthContext } from '../../context/authProvider'
 import { db } from '../../firebase/config'
 
 export default function NormalLoginModal() {
-    const {setUser, history, setLoginType,} = useContext(AuthContext)
+    const {setUser, user, history, setLoginType} = useContext(AuthContext)
     const { setSigninVisivle, signinVisivle, setIsLoginVisible, isLoginVisible } = useContext(AppContext)
 
     const [userDatas, setUserDatas] = useState()
@@ -25,18 +25,27 @@ export default function NormalLoginModal() {
     }, [])
 
     function handleLogin() {
+        let inputValue = inputPasswordRef.current.value.toLowerCase()
         userDatas.map((userData) => {
-            if(userData.displayName === inputNameRef.current.value && userData.password === inputPasswordRef.current.value
+            // console.log(userData.displayName === inputNameRef.current.value && userData.password === inputValue)
+            if(userData.displayName === inputNameRef.current.value && userData.password === inputValue
             ) {
                 const { displayName, uid, photoURL } = userData
 
-                setIsErrorVisible('hidden')
+                console.log({ displayName, uid, photoURL })
 
-                setUser({
+                new Promise(resolve=>{
+                    resolve()
+                })
+                .then(setUser({
                     displayName, uid, photoURL
+                }))
+                .then(() => {
+                    console.log(user)
+                    setLoginType('normal')
                 })
 
-                setLoginType('normal')
+
             } else {
                 // console.log('b')
                 setIsErrorVisible('')

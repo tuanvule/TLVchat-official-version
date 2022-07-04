@@ -40,7 +40,8 @@ export default function SigninModal() {
 
     function require(value, min = 8) {
         const errorLine = getParent(value.current, '.form-group').children[2]
-        if(value.current.value.length >= min) {
+        if(value.current.value.trim().length >= min) {
+            console.log('a')
             setErrorLineVisible((prev) => ({
                 ...prev,
                 [value.current.name]: 'hidden',
@@ -56,10 +57,10 @@ export default function SigninModal() {
                 ...prev,
                 [value.current.name]: '',
             }))
-            if(value.current.value.length < min && value.current.value.length > 0) {
+            if(value.current.value.trim().length < min && value.current.value.trim().length > 0) {
                 errorLine.innerHTML = `this field need more than ${min} word`
-            } else if(value.current.value.length === 0) {
-                errorLine.innerHTML = `you need to fill this field`
+            } else if(value.current.value.trim().length === 0) {
+                errorLine.innerHTML = `you need to fill this field or remove all the space`
             }
             setIsError(true)
         }
@@ -91,16 +92,17 @@ export default function SigninModal() {
     function handleSignup(e) {
         e.preventDefault() 
 
+        
         const requiredName = require(inputNameRef)
         const requiredPassword = require(inputPasswordRef)
         confirmPasswordRequire(inputConfirmPasswordRef)
-
-        if(!isError && inputAvataRef.current.value) {
+        
+        if(!isError) {
 
             const { displayName, uid, photoURL } = addDocument('users', {
                 displayName: requiredName,
-                password: requiredPassword,
-                photoURL: inputAvataRef.current.value,
+                password: requiredPassword.toLowerCase(),
+                photoURL: inputAvataRef.current.value.length === 0 ? 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2-lk-RYREmhV89n8yLwXTuOW2wkBMi_RLTg&usqp=CAU' : inputAvataRef.current.value,
                 uid: Date.now(),
             })
 
@@ -122,7 +124,9 @@ export default function SigninModal() {
 
     function uploadImage() {
 
-        if(fileUpload.current.files[0]) {
+        var isValid = /\.jpe?g$/i.test(fileUpload.current.files[0].name)
+
+        if(fileUpload.current.files[0] && isValid) {
           const storage = getStorage();
     
           /** @type {any} */
@@ -155,15 +159,18 @@ export default function SigninModal() {
               // Upload completed successfully, now we can get the download URL
               getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
                 if(downloadURL) {
-                  setIsLoading(false)
-                  inputAvataRef.current.value = downloadURL
+                    console.log(downloadURL)
+                    inputAvataRef.current.value = downloadURL
                 } else {
-                  setIsLoading(false)
+                    inputAvataRef.current.value = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2-lk-RYREmhV89n8yLwXTuOW2wkBMi_RLTg&usqp=CAU'
                 }
+                setIsLoading(false)
               });
             }
           );
       
+        } else {
+            alert('Only jpg files allowed!')
         }
       }
     

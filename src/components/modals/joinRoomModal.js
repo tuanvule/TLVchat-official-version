@@ -55,7 +55,7 @@ export default function JoinRoomModal() {
         <input value={value.name} onChange={handleNameChange} placeholder="enter room ID" type="text" className=" mb-4 mt-2 w-full px-2 py-2 rounded-lg" name="name" />
 
         <div className=" mt-auto">
-            <button onClick={handleCancel} className=" text-base font-light bg-white border border-black px-2 py-1 rounded">cancle</button>
+            <button onClick={handleCancel} className=" text-base font-light bg-white border border-black px-2 py-1 rounded">cancel</button>
             <button onClick={handleOk} className=" text-lg font-medium bg-[#4BECC6] px-2 py-1 rounded">save</button>
         </div>
         </div>
