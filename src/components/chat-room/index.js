@@ -6,7 +6,7 @@ import SettingForm from './settingForm'
 export default function ChatApp() {
 
   return (
-    <div className="h-screen flex ">
+    <div className="h-screen flex">
         <Sidebar/>
         <Chatwindow/>
         <SettingForm/>

@@ -12,7 +12,7 @@ function Chatwindow() {
   const [chunkedMes, setChunkedMes] = useState()
   const [chunkAmount, setChunkAmount] = useState(1)
 
-  const { selectedRoom, isJoinRoomVisible} = useContext(AppContext);
+  const { selectedRoom, isJoinRoomVisible, setMessagesLength} = useContext(AppContext);
  
   const { uid, photoURL, displayName } = useContext(AuthContext);
 
@@ -56,6 +56,8 @@ function Chatwindow() {
   );
 
   const messages = useFirestore('messages', condition);
+
+  setMessagesLength(messages.length)
 
   function handleScroll() {
     var position = messageListRef.current.children[0].getBoundingClientRect();
@@ -115,9 +117,8 @@ function Chatwindow() {
     { isJoinRoomVisible ? <JoinRoomModal/> : null}
     { isAddRoomVisible ? <AddRoomModal/> : null }
     { selectedRoom.id ? (
-    <div style={{...selectedRoom.background, color: selectedRoom.color}}
-    className=" bg-no-repeat bg-cover bg-center flex-1 flex flex-col">
-      <nav style={{borderRadius: '0'}} className="glassmorphism-style bg-transparent flex items-center justify-between px-2 py-2 border-b-2">
+    <div className=" bg-[#F3F6FB] flex-1 flex flex-col mt-[10px] rounded-large">
+      {/* <nav style={{borderRadius: '0'}} className=" bg-transparent flex items-center justify-between px-2 py-2 border-b-2">
         <div className="flex items-center">
           <img className="w-12 h-12 rounded-full mr-2" src={selectedRoom.avata} alt="" />
           <div>
@@ -129,11 +130,11 @@ function Chatwindow() {
           <h1 className=" text-lg font-semibold">{selectedRoom.members.length}</h1>
           <i class="fa-solid fa-user-group text-blue-600 ml-2"></i>
         </div>
-      </nav>
+      </nav> */}
       <ul onScroll={handleScroll} ref={messageListRef} className=" h-full py-2 px-2 overflow-auto message-list text-black">
         {chunkedMes && chunkedMes.map((mes) => {
           return (
-            <li className="glassmorphism-style w-fit flex items-end mb-4 py-1 px-2 rounded-md bg-white bg-opacity-30" key={mes.id}>
+            <li className=" w-fit flex items-end mb-4 py-1 px-2 rounded-md bg-[#ebedef]" key={mes.id}>
               <img className=" w-11 h-11 mt-1 rounded-full self-start" src={mes.photoURL} alt="" />
               <div className="">
                 <div className="flex items-center">
@@ -149,10 +150,10 @@ function Chatwindow() {
         })}
       </ul>
 
-      <div style={{borderRadius: '0'}} className="flex w-full px-1 py-2 glassmorphism-style border-t">
-        <input value={inputValue} onChange={e => setInputValue(e.target.value)} ref={inputRef} className=" w-full bg-[#06283D] text-white ml-1 px-3 py-1 rounded-full outline-none" type="text" />
+      <div className="flex bg-white rounded-large py-2 mx-3 mb-4">
+        <input value={inputValue} onChange={e => setInputValue(e.target.value)} ref={inputRef} className=" w-full h-10 ml-1 px-3 py-1 rounded-md border outline-none" placeholder='enter your message here' type="text" />
         <div data-emojiable="true" className="emoji relative flex items-center">
-          <div className="emoji-list absolute hidden -top-14 -right-16 transform bg-[#0A0C10] px-2 py-1 text-2xl rounded-full border-2 border-[#1D4ED8] triangle">
+          <div className="emoji-list absolute hidden -top-14 -right-16 transform px-2 py-1 text-2xl rounded-full border-2 border-[#1D4ED8] triangle">
             <div onClick={() => handleAddEmoji('🤣')} className=" cursor-pointer hover:brightness-90">🤣</div>
             <div onClick={() => handleAddEmoji('😢')} className=" cursor-pointer hover:brightness-90">😢</div>
             <div onClick={() => handleAddEmoji('😠')} className=" cursor-pointer hover:brightness-90">😠</div>
@@ -162,11 +163,12 @@ function Chatwindow() {
             <div onClick={() => handleAddEmoji('😑')} className=" cursor-pointer hover:brightness-90">😑</div>
           </div>
           <button className=" mx-2 rounded-large hover:opacity-90">
-            <i class="fa-solid fa-face-smile text-2xl h-full text-[#06B6D4]"></i>
+            <i class="fa-solid fa-face-smile text-2xl h-full text-[#2663E9]"></i>
           </button>
         </div>
-        <button onClick={handleSendMs} className="mx-2 bg-[#06283D] px-4 py-1 rounded-large hover:opacity-90">
-          <i class="fa-solid fa-paper-plane text-[#2663E9]"></i>
+        <button onClick={handleSendMs} className=" bg-[#2663E9] mx-2 px-4 py-1 rounded-large hover:opacity-90 flex items-center text-white">
+          send
+          <i class="fa-solid fa-paper-plane ml-1"></i>
         </button>
       </div>
     </div>
@@ -176,7 +178,10 @@ function Chatwindow() {
     //     <h1 className=" text-2xl font-semibold text-slate-800">Bạn chưa chọn phòng</h1>
     //   </div>
     // </div>
-    <div style={{backgroundImage:'url(/not-choose-room.jpg)'}} className=" bg-cover bg-center flex-1"></div>
+    // <div style={{backgroundImage:'url(/not-choose-room.jpg)'}} className=" bg-cover bg-center flex-1"></div>
+    <div className=" bg-[#F5F8FC] flex-1 flex items-center justify-center">
+      <div className="neumorphinsm px-4 py-4 text-3xl font-semibold">You have not selected a room</div>
+    </div>
   }
   </>
   )

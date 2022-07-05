@@ -78,7 +78,7 @@ const { backgrounds, setCustomBackground, setTextColor, colorData, selectedRoomI
     
     // console.log('rerender customingModal')
   return (
-    <div className=" text-white">
+    <div className="">
         <h1 className=" text-center font-bold text-2xl border-b-2 border-b-cyan-500 py-2">Background</h1>
         <ul className="flex flex-col items-center">
             <li className="custom-color relative z-[10] text-xl mb-4 font-medium cursor-pointer hover:underline hover:decoration-slate-300 decoration-2 hover:text-slate-300">

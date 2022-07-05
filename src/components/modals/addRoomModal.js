@@ -9,6 +9,7 @@ import Loading from './loading';
 
 export default function AddRoomModal() {
     const { setIsAddRoomVisible } = useContext(AppContext);
+    const { user } = useContext(AuthContext)
     const [ value, setValue] = useState({
       name: '',
       description: '',
@@ -64,7 +65,12 @@ export default function AddRoomModal() {
 
       console.log('b')
 
-      addDocument('rooms', { ...value, avata: value.avata || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPQ53Esibh-O6ebk0B4OBfulUoQDlQBUPQ3Q&usqp=CAU', background: {backgroundColor: '#fff'}, members: [`${uid}`] });
+      addDocument('rooms', { 
+        ...value, 
+        avata: value.avata || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPQ53Esibh-O6ebk0B4OBfulUoQDlQBUPQ3Q&usqp=CAU', 
+        background: {backgroundColor: '#fff'}, members: [`${uid}`] ,
+        creator: user
+      });
 
       // reset form value
       resetInputValue()

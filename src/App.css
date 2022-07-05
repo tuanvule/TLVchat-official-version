@@ -37,9 +37,16 @@
   }
 }
 
+.neumorphinsm {
+  border-radius: 12px;
+  background: #F5F8FC;
+  box-shadow:  20px 20px 60px #d0d3d6,
+              -20px -20px 60px #ffffff;
+}
+
 .group-list {
   overflow: auto;
-  height: 76.2%;
+  height: 73%;
   transition: all 0.2s linear;
 }
 
