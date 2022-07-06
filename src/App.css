@@ -44,9 +44,17 @@
               -20px -20px 60px #ffffff;
 }
 
+.dark-neumorphinsm {
+  border-radius: 12px;
+  background: #1A2133;
+  box-shadow:  20px 20px 60px #161c2b,
+              -20px -20px 60px #1e263b;
+}
+
 .group-list {
+  flex-grow: 1;
   overflow: auto;
-  height: 73%;
+  /* height: 73%;  */
   transition: all 0.2s linear;
 }
 

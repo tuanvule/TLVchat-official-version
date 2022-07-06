@@ -16,6 +16,7 @@ export default function AppProvider({ children }) {
   const [signinVisivle, setSigninVisivle] = useState(false)
   const [isLoginVisible, setIsLoginVisible] = useState(false);
   const [messagesLength, setMessagesLength] = useState(0)
+  const [theme, setTheme] = useState('dark')
 
   const { uid } = React.useContext(AuthContext);
 
@@ -71,6 +72,7 @@ export default function AppProvider({ children }) {
         signinVisivle, setSigninVisivle,
         isLoginVisible, setIsLoginVisible,
         messagesLength, setMessagesLength,
+        theme, setTheme
       }}
     >
       {children}

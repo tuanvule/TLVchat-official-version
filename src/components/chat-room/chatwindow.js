@@ -12,7 +12,7 @@ function Chatwindow() {
   const [chunkedMes, setChunkedMes] = useState()
   const [chunkAmount, setChunkAmount] = useState(1)
 
-  const { selectedRoom, isJoinRoomVisible, setMessagesLength} = useContext(AppContext);
+  const { selectedRoom, isJoinRoomVisible, setMessagesLength, setTheme, theme} = useContext(AppContext);
  
   const { uid, photoURL, displayName } = useContext(AuthContext);
 
@@ -111,31 +111,29 @@ function Chatwindow() {
         messageListRef.current.scrollTop = messageListRef.current.scrollHeight + 50;
     }
   }, [messages, selectedRoom]);
+
+  function handleToggleTheme() {
+    if(theme === 'dark') {
+      setTheme('light')
+    } else {
+      setTheme('dark')
+    }
+  }
   
   return (
     <>
     { isJoinRoomVisible ? <JoinRoomModal/> : null}
     { isAddRoomVisible ? <AddRoomModal/> : null }
     { selectedRoom.id ? (
-    <div className=" bg-[#F3F6FB] flex-1 flex flex-col mt-[10px] rounded-large">
-      {/* <nav style={{borderRadius: '0'}} className=" bg-transparent flex items-center justify-between px-2 py-2 border-b-2">
-        <div className="flex items-center">
-          <img className="w-12 h-12 rounded-full mr-2" src={selectedRoom.avata} alt="" />
-          <div>
-            <h2 className="font-medium text-lg text-[#66FCF0]">{selectedRoom.name}</h2>
-            <p className="">{selectedRoom.description}</p>
-          </div>
-        </div>
-        <div className="flex items-center pr-2">
-          <h1 className=" text-lg font-semibold">{selectedRoom.members.length}</h1>
-          <i class="fa-solid fa-user-group text-blue-600 ml-2"></i>
-        </div>
-      </nav> */}
-      <ul onScroll={handleScroll} ref={messageListRef} className=" h-full py-2 px-2 overflow-auto message-list text-black">
+    <div className=" relative bg-[#F3F6FB] dark:bg-[#1A2133] flex-1 flex flex-col mt-[10px] rounded-large">
+      <div onClick={handleToggleTheme} className={` absolute right-2 top-2 w-8 h-8 flex rounded-full ${theme === 'dark' ? 'bg-white' : 'bg-black'} hover:brightness-75 cursor-pointer`}>
+        {theme === 'dark' ? <i class="fa-solid fa-sun text-xl m-auto text-black"></i> : <i class="fa-solid fa-moon text-2xl m-auto text-white"></i> }
+      </div>
+      <ul onScroll={handleScroll} ref={messageListRef} className=" h-full py-2 px-2 overflow-auto message-list ">
         {chunkedMes && chunkedMes.map((mes) => {
           return (
-            <li className=" w-fit flex items-end mb-4 py-1 px-2 rounded-md bg-[#ebedef]" key={mes.id}>
-              <img className=" w-11 h-11 mt-1 rounded-full self-start" src={mes.photoURL} alt="" />
+            <li className=" w-fit flex items-end mb-4 py-1 px-2 rounded-md bg-[#ebedef] dark:bg-[#253649]" key={mes.id}>
+              <div style={{backgroundImage: `url(${mes.photoURL})`}} className=" bg-cover bg-center w-11 h-11 mt-1 rounded-full self-start" />
               <div className="">
                 <div className="flex items-center">
                   <h1 className=" font-medium text-lg mx-2">{mes.displayName}</h1>
@@ -150,8 +148,8 @@ function Chatwindow() {
         })}
       </ul>
 
-      <div className="flex bg-white rounded-large py-2 mx-3 mb-4">
-        <input value={inputValue} onChange={e => setInputValue(e.target.value)} ref={inputRef} className=" w-full h-10 ml-1 px-3 py-1 rounded-md border outline-none" placeholder='enter your message here' type="text" />
+      <div className="flex bg-white dark:bg-[#19182A] rounded-large py-2 mx-3 mb-4">
+        <input value={inputValue} onChange={e => setInputValue(e.target.value)} ref={inputRef} className=" w-full h-10 ml-1 px-3 py-1 rounded-md border outline-none dark:bg-transparent dark:border-gray-600" placeholder='enter your message here' type="text" />
         <div data-emojiable="true" className="emoji relative flex items-center">
           <div className="emoji-list absolute hidden -top-14 -right-16 transform px-2 py-1 text-2xl rounded-full border-2 border-[#1D4ED8] triangle">
             <div onClick={() => handleAddEmoji('🤣')} className=" cursor-pointer hover:brightness-90">🤣</div>
@@ -179,8 +177,8 @@ function Chatwindow() {
     //   </div>
     // </div>
     // <div style={{backgroundImage:'url(/not-choose-room.jpg)'}} className=" bg-cover bg-center flex-1"></div>
-    <div className=" bg-[#F5F8FC] flex-1 flex items-center justify-center">
-      <div className="neumorphinsm px-4 py-4 text-3xl font-semibold">You have not selected a room</div>
+    <div className=" bg-[#F5F8FC] dark:bg-[#1A2133] flex-1 flex items-center justify-center">
+      <div className="dark-neumorphinsm dark:bg-[#1A2133] px-4 py-4 text-3xl font-semibold">You have not selected a room</div>
     </div>
   }
   </>
