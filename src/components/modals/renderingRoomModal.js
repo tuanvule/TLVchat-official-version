@@ -51,7 +51,7 @@ function RenderingRoomModal() {
             ))}
         </ul>
         <div className="flex flex-col justify-between mt-1 mb-2 text-white">
-          <button onClick={handleAddRoom} className=" bg-[#004DFC] text-white px-2 py-1 my-2 rounded hover:bg-gray-200">create room chat</button>
+          <button onClick={handleAddRoom} className=" bg-[#004DFC] hover:brightness-75 text-white px-2 py-1 my-2 rounded ">create room chat</button>
           <button onClick={handleJoinRoom} className="bg-[#1A233B] px-2 py-1 rounded hover:bg">join room chat</button>
         </div>
     </div>
