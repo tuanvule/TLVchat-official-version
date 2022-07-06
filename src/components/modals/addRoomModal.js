@@ -177,17 +177,17 @@ export default function AddRoomModal() {
   return ( 
     <form className=" z-30 fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-white bg-opacity-30">
       {isLoading ? <Loading type='spin' color='#2563EB' height={'8%'} width={'8%'}/> : null}
-      <div className="bg-cyan-400 w-96 h-fit px-8 py-4">
-        <h1 className="text-2xl font-semibold">Add room</h1>
-        <div className="w-full h-1 mb-6 bg-gradient-to-r from-red-400 to-cyan-500"/>
+      <div className="bg-white dark:bg-[#161C2D] w-96 h-fit px-8 py-4">
+        <h1 className="text-2xl font-semibold text-center mb-2">Add room</h1>
+        {/* <div className="w-full h-1 mb-6 bg-gradient-to-r from-red-400 to-cyan-500"/> */}
 
         <h1 className=" text-base font-bold">Name</h1>
-        <input value={value.name} onChange={handleNameChange} type="text" placeholder="enter room's name" className=" mb-3 mt-2 w-full px-2 py-2 rounded-lg" name="name" />
+        <input value={value.name} onChange={handleNameChange} type="text" placeholder="enter room's name" className=" dark:text-black border-gray-400 dark:border-gray-700 border w-full py-2 px-2 rounded-lg" name="name" />
         
         <h1 className=" text-base font-bold">Description</h1>
-        <textarea style={{ maxHeight: "80px"}} value={value.description} onChange={handleDcsChange} type="text" placeholder="enter room's description" className=" mb-3 mt-2 w-full h-20 justify-items-start px-2 py-2 rounded-lg" name="description" />
+        <textarea style={{ maxHeight: "80px"}} value={value.description} onChange={handleDcsChange} type="text" placeholder="enter room's description" className=" dark:text-black border-gray-400 dark:border-gray-700 border mb-3 mt-2 w-full h-20 justify-items-start px-2 py-2 rounded-lg" name="description" />
         <h1 className=" text-base font-bold">Avata</h1>
-          <input value={value.avata} onChange={handleAvataChange} placeholder="enter the url image" type="text" className=" mb-2 mt-2 w-full justify-items-start px-2 py-2 rounded-lg" name="description" />
+        <input value={value.avata} onChange={handleAvataChange} placeholder="enter the url image" type="text" className=" dark:text-black border-gray-400 dark:border-gray-700 border mb-2 mt-2 w-full justify-items-start px-2 py-2 rounded-lg" name="description" />
           
           
           <input ref={fileUpload} className="
@@ -196,13 +196,15 @@ export default function AddRoomModal() {
           file:rounded-full file:border-2
           file:text-sm file:font-bold
           file:border-[#2563EB]
+          dark:file:bg-black
+          dark:file:text-white
           file:bg-violet-50 file:text-[#2563EB]
           hover:file:bg-violet-100
           " type="file" />
 
         <div className=" mt-auto">
-          <button onClick={handleCancel} className=" text-base font-light bg-white border border-black px-2 py-1 mr-1 rounded">Cancle</button>
-          <input onClick={(e) => handleOk(e)} type="submit" className=" text-lg font-medium bg-[#4BECC6] px-2 py-1 rounded" value="Add room"/>
+          <button onClick={handleCancel} className=" text-base font-light bg-black dark:bg-white text-white dark:text-black border-gray-400 dark:border-gray-700 border border border-black px-2 py-1 mr-1 rounded">Cancle</button>
+          <input onClick={(e) => handleOk(e)} type="submit" className=" text-lg font-medium bg-[#004DFC] px-2 py-1 rounded" value="Add room"/>
         </div>
       </div>
     </form>
