@@ -31,7 +31,7 @@ function RenderingRoomModal() {
   return (
     <div className="flex flex-col h-full">
         <div className=" rounded-lg px-2 py-2 mb-3 flex items-center bg-[#F5F8FC] dark:bg-[#19182A] dark:text-white border-2 border-gray-700">
-            <div style={{backgroundImage: `url(${photoURL})`}} className=" bg-cover bg-center w-10 h-10 rounded-full" />
+            <div style={{backgroundImage: `url(${photoURL})`}} className=" bg-cover bg-center w-10 min-w-[2.5rem] h-10 rounded-full" />
             <h2 className=" text-lg font-bold ml-2 whitespace-nowrap text-ellipsis overflow-hidden">{displayName}</h2>
             <button onClick={handleLogout} className=" bg-[#004DFC] rounded-md px-2 py-1 ml-auto font-bold text-white hover:bg-sky-500">Logout</button>
         </div>
@@ -41,11 +41,11 @@ function RenderingRoomModal() {
         </div> */}
         <ul className=" group-list">
             {rooms.map((room) => (
-            <li key={room.id} onClick={() => setSelectedRoomId(room.id)} className={`flex py-2 px-2 mb-1 rounded-large overflow-hidden ${selectedRoomId === room.id ? 'bg-[#eef1f5] dark:bg-[#253649] dark:text-white' : null}`}>
-                <div style={{backgroundImage: `url(${room.avata})`}} className="w-12 h-12 rounded-full mr-2 bg-cover bg-center" alt="" />
-                <div className="">
-                  <h2 className="font-medium">{room.name}</h2>
-                  <p className="">{room.description}</p>
+            <li key={room.id} onClick={() => setSelectedRoomId(room.id)} className={`flex py-2 px-2 mb-1 rounded-large ${selectedRoomId === room.id ? 'bg-[#eef1f5] dark:bg-[#253649] dark:text-white' : null}`}>
+                <div style={{backgroundImage: `url(${room.avata})`}} className="w-12 h-12 min-w-[3rem] rounded-full mr-2 bg-cover bg-center" alt="" />
+                <div className=" w-full overflow-hidden">
+                  <h2 className="font-medium whitespace-nowrap text-ellipsis overflow-hidden">{room.name}</h2>
+                  <p className=" whitespace-nowrap text-ellipsis overflow-hidden">{room.description}</p>
                 </div>
             </li>
             ))}

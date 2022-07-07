@@ -138,7 +138,7 @@ function Chatwindow() {
               <div style={{backgroundImage: `url(${mes.photoURL})`}} className=" bg-cover bg-center w-11 min-w-[2.75rem] h-11 mt-1 rounded-full self-start" />
               <div className="">
                 <div className="flex items-center">
-                  <h1 className=" font-medium text-lg mx-2">{mes.displayName}</h1>
+                  <h1 className=" font-semibold tracking-wider text-lg mx-2">{mes.displayName}</h1>
                   <p className=" text-sm">{mes.TimeAdd}</p>
                 </div>
                 <div className=" break-all">
