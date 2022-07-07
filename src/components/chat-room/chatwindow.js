@@ -12,7 +12,7 @@ function Chatwindow() {
   const [chunkedMes, setChunkedMes] = useState()
   const [chunkAmount, setChunkAmount] = useState(1)
 
-  const { selectedRoom, isJoinRoomVisible, setMessagesLength, setTheme, theme} = useContext(AppContext);
+  const { selectedRoom, isJoinRoomVisible, setMessagesLength, setTheme, theme, selectedRoomId} = useContext(AppContext);
  
   const { uid, photoURL, displayName } = useContext(AuthContext);
 
@@ -107,10 +107,12 @@ function Chatwindow() {
   }, [selectedRoom])
 
   useEffect(() => {
-    if (messageListRef?.current) {
-        messageListRef.current.scrollTop = messageListRef.current.scrollHeight + 50;
+    if (messageListRef?.current && chunkedMes && chunkedMes.length < 40) {
+        messageListRef.current.scrollTop = messageListRef.current.scrollHeight + 1000;
+    } else if(chunkedMes && chunkedMes.length > 40) {
+      return
     }
-  }, [messages, selectedRoom]);
+  }, [messages, selectedRoomId, chunkedMes]);
 
   function handleToggleTheme() {
     if(theme === 'dark') {
@@ -129,11 +131,11 @@ function Chatwindow() {
       <div onClick={handleToggleTheme} className={` absolute right-2 top-2 w-8 h-8 flex rounded-full ${theme === 'dark' ? 'bg-white' : 'bg-black'} hover:brightness-75 cursor-pointer`}>
         {theme === 'dark' ? <i class="fa-solid fa-sun text-xl m-auto text-black"></i> : <i class="fa-solid fa-moon text-2xl m-auto text-white"></i> }
       </div>
-      <ul onScroll={handleScroll} ref={messageListRef} className=" h-full py-2 px-2 overflow-auto message-list ">
+      <ul onScroll={handleScroll} ref={messageListRef} className=" h-full py-2 px-3 overflow-auto message-list ">
         {chunkedMes && chunkedMes.map((mes) => {
           return (
             <li className=" w-fit flex items-end mb-4 py-1 px-2 rounded-md bg-[#ebedef] dark:bg-[#253649]" key={mes.id}>
-              <div style={{backgroundImage: `url(${mes.photoURL})`}} className=" bg-cover bg-center w-11 h-11 mt-1 rounded-full self-start" />
+              <div style={{backgroundImage: `url(${mes.photoURL})`}} className=" bg-cover bg-center w-11 min-w-[2.75rem] h-11 mt-1 rounded-full self-start" />
               <div className="">
                 <div className="flex items-center">
                   <h1 className=" font-medium text-lg mx-2">{mes.displayName}</h1>
